@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  artillery:
+    runs-on: ubuntu-latest
+
+    container: artilleryio/artillery:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make reports directory
+        run: mkdir reports
+
+      - name: Execute load tests
+        run: /home/node/artillery/bin/artillery run --output reports/report.json artillery-config.yml
+
+      - name: Generate HTML report
+        run: /home/node/artillery/bin/artillery report --output reports/report reports/report.json
+
+      - name: Archive test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: artillery-test-report
+          path: reports/*
+          
+      - name: Deploy report to GitHub pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
