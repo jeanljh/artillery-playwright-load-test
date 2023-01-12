@@ -1,4 +1,4 @@
-# run load test for playwright script in e2e.js
+# run artillery load test with playwright script in e2e.js
 config:
   target: "https://www.globustours.com.sg/"
   engines:

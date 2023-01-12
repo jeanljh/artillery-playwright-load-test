@@ -1,3 +1,4 @@
+/**playwright script for artillery test */
 
 async function e2e(page) {
     page.setDefaultTimeout(60000)
