@@ -1,0 +1,23 @@
+# run load test for playwright script in e2e.js
+config:
+  target: "https://www.globustours.com.sg/"
+  engines:
+    playwright: { aggregateByName: true }
+  processor: ./e2e.js
+  phases:
+    # - name: ramp up load
+    #   duration: 120
+    #   arrivalRate: 5
+    #   rampTo: 50
+    # - name: sustained load
+    #   duration: 600
+    #   arrivalRate: 20
+    #   maxUsers: 100
+    - name: fixed load
+      duration: 60
+      arrivalCount: 10
+scenarios:
+  - name: e2e load test
+    engine: playwright
+    flowFunction: e2e
+    flow: []
